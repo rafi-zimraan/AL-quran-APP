@@ -23,6 +23,7 @@ import ICONS from '../assets/icon';
 import FIlterSearch from './FIlterSearch';
 import {Box, Col, Line, Padder, Row, ScaledText} from 'urip-rn-kit';
 import IMAGES from '../assets/images';
+import Sound = require('react-native-sound');
 
 interface HomeScreen {
   navigation: NativeStackNavigationProp<RootStackParams, 'detail'>;
@@ -124,6 +125,28 @@ interface SurahItemProps {
 }
 
 const SurahValue: React.FC<SurahItemProps> = props => {
+  const [isFavorite, setIsFavorite] = useState<any>('');
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const soundRef = useRef<Sound | null>(null);
+
+  // // ! react native Sound
+  // const Hendle_sound = () => {
+  //   if (isPlaying) {
+  //     // ! Saat ingin menghentikan suara
+  //     if(soundRef.current) {
+  //       soundRef.current.stop()
+  //       setIsPlaying(false)
+  //     }
+  //   } else {
+  //     // ! Saat ingin memulai suara
+  //       const soundPath = getSoundPath(props.data.surah_id)
+  //  }
+  // }
+
+  // ? Percobaaan
+  const HandleFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
   return (
     <Col onPress={props.onPress}>
       <Padder horizontal={10}>
@@ -158,6 +181,17 @@ const SurahValue: React.FC<SurahItemProps> = props => {
             <ScaledText size={20} color={COLORS.Grey2}>
               {props.data.surah_name_arabic}
             </ScaledText>
+          </Col>
+          <Col justifyCenter alignEnd>
+            <TouchableOpacity onPress={HandleFavorite}>
+              <Image
+                source={isFavorite ? ICONS.HeartColor : ICONS.heart}
+                style={{
+                  width: wp('6%'),
+                  height: hp('3%'),
+                }}
+              />
+            </TouchableOpacity>
           </Col>
         </Row>
         <Line size={1} color={COLORS.Black} />
